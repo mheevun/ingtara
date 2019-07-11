@@ -1,0 +1,11 @@
+endpoint: https://us1.prisma.sh/ppwasin/ingtara-backend/dev
+datamodel: datamodel.prisma
+#secret: putSomethingHere
+generate:
+  - generator: javascript-client
+    output: ./generated/prisma/
+  - generator: graphql-schema
+    output: ./generated/prisma/root-schema.graphql
+hooks:
+  post-deploy:
+    - prisma generate #run prisma generate every time we deploy to Prisma.
