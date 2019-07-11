@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import gql from "graphql-tag";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks";
 
+//https://moonhighway.com/apollo-hooks
 const ALL_LIFTS_QUERY = gql`
   query {
     allLifts {
@@ -15,6 +16,14 @@ const ALL_LIFTS_QUERY = gql`
 const MUTATION = gql`
   mutation SetLiftStatus($id: ID!, $status: LiftStatus!) {
     setLiftStatus(id: $id, status: $status) {
+      id
+      status
+    }
+  }
+`;
+const SUBSCRIPTION = gql`
+  subscription {
+    liftStatusChange {
       id
       status
     }
@@ -33,6 +42,7 @@ const MUTATION = gql`
 export default function App() {
   const { loading, data } = useQuery(ALL_LIFTS_QUERY);
   const [setLiftStatus] = useMutation(MUTATION);
+  // useSubscription(SUBSCRIPTION);
 
   if (loading) return <p>loading lifts</p>;
   return (
